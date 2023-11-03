@@ -1,0 +1,60 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "@types/react": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
+    "@typescript-eslint/parser": "^4.0.0",
+    "babel-eslint": "^10.0.0",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "lerna": "^4.0.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1",
+    "serve": "^11.3.2",
+    "typescript": "4.3.2",
+    "webpack-cli": "^4.7.2"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "workspaces": {
+    "packages": [
+      "packages/components",
+      "packages/icons",
+      "packages/mock",
+      "packages/services",
+      "packages/utils",
+      "packages/secberus-app"
+    ]
+  },
+  "scripts": {
+    "build:deps": "time yarn build:icons && time yarn build:mock && time yarn build:utils && time yarn build:services && time yarn build:components",
+    "build": "yarn build:deps && time yarn build:app",
+    "build:icons": "yarn workspace @secberus/icons build",
+    "build:mock": "yarn workspace @secberus/mock build",
+    "build:utils": "yarn workspace @secberus/utils build",
+    "build:components": "yarn workspace @secberus/components build",
+    "build:services": "yarn workspace @secberus/services build",
+    "build:app": "yarn workspace secberus-app build",
+    "build:storybook": "yarn workspace @secberus/components build:storybook",
+    "lint": "eslint './packages/**/src/**/*.{js,jsx,ts,tsx}'",
+    "lint:debug": "eslint './packages/**/src/**/*.{js,jsx,ts,tsx}' --debug",
+    "lint:fix": "eslint './packages/**/src/**/*.{js,jsx,ts,tsx}' --fix --debug",
+    "nuke": "rm -rf packages/*/node_modules && rm -rf node_modules",
+    "nuke-from-orbit": "yarn nuke && rm -rf packages/*/dist && rm -rf packages/*/build",
+    "start": "yarn workspace secberus-app start",
+    "version:patch": "lerna version patch --force-publish",
+    "version:minor": "lerna version minor --force-publish",
+    "version:major":  "lerna version major --force-publish"
+  },
+  "resolutions": {
+    "immer": "9.0.2"
+  }
+}

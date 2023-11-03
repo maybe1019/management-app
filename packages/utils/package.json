@@ -1,0 +1,53 @@
+{
+    "version": "9.4.2",
+    "private": true,
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "engines": {
+        "node": ">=10"
+    },
+    "scripts": {
+        "build": "tsc && node ../../esbuild.config.js",
+        "size": "size-limit",
+        "analyze": "size-limit --why",
+        "compile": "tsc -p ./tsconfig.json --emitDeclarationOnly=false --noEmit",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.15.8",
+        "@babel/preset-env": "^7.15.8",
+        "@babel/preset-typescript": "^7.15.0",
+        "@size-limit/preset-small-lib": "^4.12.0",
+        "@types/jest": "^26.0.22",
+        "babel-jest": "^27.2.5",
+        "esbuild": "^0.12.20",
+        "esbuild-node-externals": "^1.3.0",
+        "jest": "^27.2.5",
+        "lint-staged": "^10.5.1",
+        "size-limit": "^4.12.0",
+        "tslib": "^2.2.0",
+        "typescript": "^4.3.2"
+    },
+    "peerDependencies": {
+        "react": "^17.0.1"
+    },
+    "resolutions": {
+        "typescript": "4.3.2"
+    },
+    "name": "@secberus/utils",
+    "module": "dist/index.js",
+    "size-limit": [
+        {
+            "path": "dist/index.js",
+            "limit": "10 KB"
+        },
+        {
+            "path": "dist/index.js",
+            "limit": "10 KB"
+        }
+    ]
+}

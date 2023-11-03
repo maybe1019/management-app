@@ -1,0 +1,25 @@
+branches:
+  - label: 'type: enhancement'
+    prefix: enh/${assignee.login}/
+  - label: 'type: feature'
+    prefix: feat/${assignee.login}/
+  - label: 'type: bug'
+    prefix: fix/${assignee.login}/
+  - label: 'type: documentation'
+    prefix: docs/${assignee.login}/
+  - label: 'type: testing'
+    prefix: test/${assignee.login}/
+  - label: 'type: chore'
+    prefix: chore/${assignee.login}/
+  - label: 'Epic'
+    prefix: feature/epic/${issue.title}/
+  - label: 'hotfix'
+    prefix: hotfix/${issue.title}/
+    name: master
+  - label: '*'
+    skip: true
+commentMessage: 'Use branch [${branchName}](${branches_url}) '
+branchName: short
+autoCloseIssue: false
+defaultBranch: 'develop'
+mode: chatops

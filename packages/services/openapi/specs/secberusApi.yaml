@@ -1,0 +1,3236 @@
+openapi: 3.0.0
+info:
+  title: Secberus API
+  version: 3.0.0
+paths:
+  /v1/openapi:
+    get:
+      operationId: GetOpenAPISpec
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/_healthcheck:
+    get:
+      operationId: GetHealthcheck
+      responses:
+        '200':
+          description: 200 response
+  /v1/login/callback:
+    post:
+      operationId: LoginCallback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+      responses:
+        '201':
+          description: 201 response
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/login/is-sso:
+    get:
+      operationId: GetSSOConfig
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IsSSO'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/login/token:
+    post:
+      operationId: GetAuthToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialLogin'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CredentialResponse'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/categories:
+    get:
+      operationId: ListCategories
+      security:
+        - xUser:
+            - 'api:categories:list'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryList'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/categories/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetCategory
+      security:
+        - xUser:
+            - 'api:categories:read'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryWithPolicies'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    delete:
+      parameters:
+        - name: replacement_category_id
+          in: query
+          required: false
+          schema:
+            type: string
+      operationId: DeleteCategory
+      security:
+        - xUser:
+            - 'api:categories:delete'
+      responses:
+        '200':
+          description: 200 response
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    put:
+      operationId: UpdateCategory
+      security:
+        - xUser:
+            - 'api:categories:edit'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategory'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/compliance-frameworks:
+    get:
+      operationId: ListCompliances
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:list'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceList'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    post:
+      operationId: CreateCompliance
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:create'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompliance'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compliance'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/compliance-frameworks/summary:
+    get:
+      operationId: SummarizeCompliances
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:list'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceSummary'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/compliance-frameworks/library:
+    get:
+      operationId: ListComplianceLibrary
+      security:
+        - xUser:
+            - 'api:compliance-library:list'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceLibrary'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/compliance-frameworks/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetCompliance
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:read'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compliance'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    delete:
+      operationId: DeleteCompliance
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:delete'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceUpdated'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    put:
+      operationId: UpdateCompliance
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCompliance'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compliance'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    patch:
+      operationId: ToggleCompliance
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToggleCompliance'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToggleComplianceResults'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/compliance-frameworks/{id}/compliance':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: ComputeComplianceScore
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:read'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComputeComplianceScore'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceScore'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/compliance-frameworks/{id}/visibility':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: SetComplianceVisibility
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetComplianceVisibility'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceUpdated'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/compliance-frameworks/{id}/publish':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: PublishCompliance
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishCompliance'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceUpdated'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/compliance-frameworks/{id}/policy':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: AddPolicyCompliance
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPolicyCompliance'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceUpdated'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    delete:
+      operationId: RemovePolicyCompliance
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemovePolicyCompliance'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceUpdated'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/compliance-frameworks/{id}/control':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: AddControlCompliance
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:read'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddControlCompliance'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceUpdated'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/compliance-frameworks/{id}/control/{ccid}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: ccid
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetControl
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:read'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Control'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    delete:
+      operationId: RemoveControlCompliance
+      security:
+        - xUser:
+            - 'api:compliance-frameworks:update'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceUpdated'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/datasources:
+    get:
+      operationId: ListDataSources
+      security:
+        - xUser:
+            - 'api:datasources:list'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasourceList'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/explorer/queries:
+    get:
+      operationId: ListSavedQueries
+      security:
+        - xUser:
+            - 'api:explorer:list_queries'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedSQLQueryList'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    post:
+      operationId: SaveQuery
+      security:
+        - xUser:
+            - 'api:explorer:write_query'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveSQLQuery'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedSQLQuery'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/explorer/queries/run:
+    post:
+      operationId: RunQuery
+      security:
+        - xUser:
+            - 'api:query:execute'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+        - name: datasource_id
+          in: query
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SQLQuery'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SQLQueryResult'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/explorer/queries/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetSavedQuery
+      security:
+        - xUser:
+            - 'api:explorer:read_query'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedSQLQuery'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    put:
+      operationId: EditQuery
+      security:
+        - xUser:
+            - 'api:explorer:write_query'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveSQLQuery'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedSQLQuery'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    delete:
+      operationId: DeleteQuery
+      security:
+        - xUser:
+            - 'api:explorer:delete_query'
+      responses:
+        '200':
+          description: 200 response
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/explorer/tables/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetTableData
+      security:
+        - xUser:
+            - 'api:explorer:read_table'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableData'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/explorer/tables:
+    get:
+      operationId: ListTables
+      security:
+        - xUser:
+            - 'api:explorer:list_tables'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableList'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/explorer/views:
+    get:
+      operationId: ListViews
+      security:
+        - xUser:
+            - 'api:explorer:list_views'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewList'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    post:
+      operationId: SaveView
+      security:
+        - xUser:
+            - 'api:explorer:write_view'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveView'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/View'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/explorer/views/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetView
+      security:
+        - xUser:
+            - 'api:explorer:read_view'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/View'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    put:
+      operationId: UpdateView
+      security:
+        - xUser:
+            - 'api:explorer:write_view'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveView'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/View'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    delete:
+      operationId: DeleteView
+      security:
+        - xUser:
+            - 'api:explorer:write_view'
+      responses:
+        '200':
+          description: 200 response
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/orgs:
+    get:
+      operationId: ListOrgs
+      security:
+        - xUser:
+            - 'api:orgs:read'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgList'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    post:
+      operationId: CreateOrg
+      security:
+        - xUser:
+            - 'api:orgs:write'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrg'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Org'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/orgs/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetOrg
+      security:
+        - xUser:
+            - 'api:orgs:read'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Org'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    delete:
+      operationId: DeleteOrg
+      security:
+        - xUser:
+            - 'api:orgs:delete'
+      responses:
+        '200':
+          description: 200 response
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    put:
+      operationId: UpdateOrg
+      security:
+        - xUser:
+            - 'api:orgs:update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrg'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Org'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/orgs/{id}/users':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetOrgUsers
+      security:
+        - xUser:
+            - 'api:orgs:read'
+            - 'api:users:list'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    patch:
+      operationId: UpdateOrgUsers
+      security:
+        - xUser:
+            - 'api:users:assign-org'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserPermissionsList'
+      responses:
+        '200':
+          description: 200 response
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/orgs/{id}/users/{userid}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userid
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      operationId: RemoveOrgUser
+      security:
+        - xUser:
+            - 'api:users:assign-org'
+      responses:
+        '200':
+          description: 200 response
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/orgs/{id}/switch':
+    put:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: OrgSwitch
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/orgs/policy-subscriptions:
+    patch:
+      operationId: PolicySubscriptions
+      security:
+        - xUser:
+            - 'api:orgs:assign-policy'
+            - 'api:datasources:assign-policy'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicySubscriptionList'
+      responses:
+        '200':
+          description: 200 response
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/policies:
+    post:
+      operationId: CreatePolicy
+      security:
+        - xUser:
+            - 'api:policies:create'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePolicy'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    get:
+      operationId: ListPolicies
+      security:
+        - xUser:
+            - 'api:policies:list'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+        - name: category_id
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: compliance_id
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: datasource_id
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: datasource_type
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: resource_id
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: severity_label
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: only_failed
+          in: query
+          schema:
+            type: boolean
+        - name: secberus_managed
+          in: query
+          schema:
+            type: boolean
+        - name: subscribed
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyList'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/policies/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetPolicy
+      security:
+        - xUser:
+            - 'api:policies:read'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    delete:
+      operationId: DeletePolicy
+      security:
+        - xUser:
+            - 'api:policies:delete'
+      responses:
+        '200':
+          description: 200 response
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    put:
+      operationId: UpdatePolicy
+      security:
+        - xUser:
+            - 'api:policies:edit'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePolicy'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/policies/{id}/coverage':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetPolicyCoverage
+      security:
+        - xUser:
+            - 'api:policies:read'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyCoverage'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+    put:
+      operationId: SetPolicyCoverage
+      security:
+        - xUser:
+            - 'api:policies:update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPolicyCoverage'
+      responses:
+        '200':
+          description: 200 response
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  '/v1/policies/{id}/subscription':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: GetPolicySubscriptions
+      security:
+        - xUser:
+            - 'api:policies:read'
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicySubscriptionList'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '404':
+          description: 404 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+  /v1/users:
+    get:
+      operationId: ListUsers
+      security:
+        - xUser:
+            - 'api:users:list'
+      parameters:
+        - $ref: '#/components/parameters/SortBy'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Page'
+        - name: org_id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryList'
+        '400':
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '403':
+          description: 403 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+        '500':
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFC7807'
+components:
+  schemas:
+    Cursor:
+      type: object
+      required:
+        - limit
+        - page
+        - pages
+        - total
+      properties:
+        total:
+          type: integer
+        pages:
+          type: integer
+        limit:
+          type: integer
+        page:
+          type: integer
+        sort_by:
+          type: array
+          items:
+            type: string
+      description: Cursor for paginated responses
+    RFC7807:
+      title: API Error Schema
+      type: object
+      properties:
+        requestid:
+          type: string
+        link:
+          type: string
+        http_status:
+          type: integer
+        detail:
+          type: string
+        title:
+          type: string
+      description: RFC7807 compatible error response
+    Category:
+      type: object
+      required:
+        - id
+        - name
+        - secberus_managed
+      properties:
+        policy_count:
+          type: integer
+        org_id:
+          type: string
+        name:
+          type: string
+        secberus_managed:
+          type: boolean
+        id:
+          type: string
+    CategoryList:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+    CreateCategory:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    CategoryWithPolicies:
+      type: object
+      required:
+        - id
+        - name
+        - secberus_managed
+        - policies
+      properties:
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Policy'
+        org_id:
+          type: string
+        name:
+          type: string
+        secberus_managed:
+          type: boolean
+        id:
+          type: string
+    Control:
+      type: object
+      required:
+        - id
+        - ordinal
+        - identifier
+        - depth
+      properties:
+        id:
+          type: string
+        ordinal:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        depth:
+          type: integer
+        path:
+          type: string
+        control_order:
+          type: integer
+        compliance_id:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Control'
+        parent:
+          type: string
+        policy_ids:
+          type: array
+          items:
+            type: string
+        policies:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              severity:
+                type: number
+              violation_count:
+                type: number
+    Compliance:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - url
+        - version
+        - full_org_coverage
+        - published
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+        secberus_managed:
+          type: boolean
+        version:
+          type: string
+        update_timestamp:
+          type: string
+        full_org_coverage:
+          type: boolean
+        published:
+          type: boolean
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Control'
+    ComplianceList:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Compliance'
+    ComplianceLibraryEntry:
+      type: object
+      required:
+        - name
+        - version
+        - update_timestamp
+        - published
+        - policy_count
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        update_timestamp:
+          type: string
+        published:
+          type: boolean
+        policy_count:
+          type: integer
+    ComplianceLibrary:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComplianceLibraryEntry'
+    CreateCompliance:
+      type: object
+      required:
+        - name
+        - description
+        - url
+        - version
+        - full_org_coverage
+        - published
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+        secberus_managed:
+          type: boolean
+        version:
+          type: string
+        full_org_coverage:
+          type: boolean
+        published:
+          type: boolean
+    UpdateCompliance:
+      type: object
+      required:
+        - version
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+        version:
+          type: string
+        update_timestamp:
+          type: string
+        full_org_coverage:
+          type: boolean
+    DeleteCompliance:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+    ToggleCompliance:
+      type: object
+      required:
+        - enabled
+      properties:
+        enabled:
+          type: boolean
+    ToggleComplianceResults:
+      type: object
+      required:
+        - org
+        - framework
+        - subscribed
+        - unsubscribed
+      properties:
+        framework:
+          type: string
+        org:
+          type: string
+        subscribed:
+          type: array
+          items:
+            type: string
+        unsubscribed:
+          type: array
+          items:
+            type: string
+    PublishCompliance:
+      type: object
+      required:
+        - published
+      properties:
+        published:
+          type: boolean
+    ComplianceUpdated:
+      type: object
+      required:
+        - id
+        - status
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+    UpdateComplianceControls:
+      type: object
+      required:
+        - id
+        - controls
+      properties:
+        id:
+          type: string
+        controls:
+          type: array
+          items:
+            $ref: '#/components/schemas/Control'
+    UpdateCompliancePolicies:
+      type: object
+      required:
+        - id
+        - policies
+      properties:
+        id:
+          type: string
+        policies:
+          type: array
+          items:
+            type: string
+    SetComplianceVisibility:
+      type: object
+      required:
+        - mandatory_orgs
+        - optional_orgs
+      properties:
+        mandatory_orgs:
+          type: array
+          items:
+            type: string
+        optional_orgs:
+          type: array
+          items:
+            type: string
+    ComplianceSummary:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComplianceSummaryData'
+    ComplianceSummaryData:
+      type: object
+      required:
+        - id
+        - name
+        - compliance_summary
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        compliance_summary:
+          type: number
+          format: double
+    AddPolicyCompliance:
+      type: object
+      required:
+        - policy_id
+        - control_id
+      properties:
+        policy_id:
+          type: string
+        control_id:
+          type: string
+    RemovePolicyCompliance:
+      type: object
+      required:
+        - policy_id
+        - control_id
+      properties:
+        policy_id:
+          type: string
+        control_id:
+          type: string
+    AddControlCompliance:
+      type: object
+      required:
+        - ordinal
+        - identifier
+        - parent
+        - control_order
+      properties:
+        ordinal:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        parent:
+          type: string
+        control_order:
+          type: integer
+    ComputeComplianceScore:
+      type: object
+      properties:
+        datasource_id:
+          type: array
+          items:
+            type: string
+        datasource_type:
+          type: array
+          items:
+            type: string
+        resource_id:
+          type: array
+          items:
+            type: string
+        resource_data:
+          type: array
+          items:
+            type: string
+    ComplianceScore:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComplianceScoreQueryResult'
+        compliance_score:
+          type: number
+          format: double
+        control_count:
+          type: integer
+        depth:
+          type: integer
+        description:
+          type: string
+        enabled:
+          type: boolean
+        failed_control_count:
+          type: integer
+        failed_policy_count:
+          type: integer
+        full_org_coverage:
+          type: boolean
+        policies:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ComplianceScoreQueryResultPolicy'
+        policy_count:
+          type: integer
+        secberus_managed:
+          type: boolean
+        update_timestamp:
+          type: string
+        version:
+          type: string
+        violation_count:
+          type: integer
+    ComplianceScoreQueryResult:
+      type: object
+      required:
+        - policies
+        - violation_count
+        - policy_count
+        - failed_policy_count
+      properties:
+        id:
+          type: string
+        ordinal:
+          type: string
+        order:
+          type: integer
+        depth:
+          type: integer
+        path:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+        identifier:
+          type: string
+        secberus_managed:
+          type: boolean
+        version:
+          type: string
+        update_timestamp:
+          type: string
+        full_org_coverage:
+          type: boolean
+        enabled:
+          type: boolean
+        parent:
+          type: string
+        policies:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ComplianceScoreQueryResultPolicy'
+        violations:
+          type: array
+          items:
+            type: string
+        violation_count:
+          type: integer
+        policy_count:
+          type: integer
+        failed_policy_count:
+          type: integer
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComplianceScoreQueryResult'
+    ComplianceScoreQueryResultPolicy:
+      type: object
+      required:
+        - id
+        - name
+        - severity
+        - violation_count
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        severity:
+          type: integer
+        violation_count:
+          type: integer
+    Datasource:
+      type: object
+      required:
+        - id
+        - name
+        - type
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    DatasourceList:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Datasource'
+    CreateOrg:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    Org:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        user_count:
+          type: integer
+        datasource_count:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+    OrgList:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Org'
+    PolicySubscription:
+      type: object
+      required:
+        - policy_id
+        - enabled
+      properties:
+        policy_id:
+          type: string
+        enabled:
+          type: boolean
+        control_id:
+          type: string
+        mandatory:
+          type: boolean
+    PolicySubscriptionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/PolicySubscription'
+    SetPolicySubscription:
+      type: object
+      required:
+        - enabled
+      properties:
+        enabled:
+          type: boolean
+    Policy:
+      type: object
+      required:
+        - id
+        - label
+        - name
+        - description
+        - severity
+        - secberus_managed
+        - subscribed
+        - language
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        rationale:
+          type: string
+        logic:
+          type: string
+        remediation_steps:
+          type: string
+        violation_summary_tmpl:
+          type: string
+        severity:
+          type: number
+        secberus_managed:
+          type: boolean
+        subscribed:
+          type: boolean
+        policy_category_id:
+          type: string
+        policy_category_name:
+          type: string
+        datasource_types:
+          type: array
+          items:
+            type: string
+        resource_types:
+          type: array
+          items:
+            type: string
+        resource_id:
+          type: string
+        language:
+          type: string
+        query:
+          type: string
+        sanitized_query:
+          type: string
+        parameters:
+          type: object
+          additionalProperties: true
+        org_id:
+          type: string
+        ctime:
+          type: string
+          x-go-type: time.Time
+        mtime:
+          type: string
+          x-go-type: time.Time
+        score:
+          type: number
+        violation_count:
+          type: integer
+        total_violation_count:
+          type: integer
+        controls:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyControl'
+    PolicyList:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Policy'
+    PolicyShort:
+      type: object
+      required:
+        - id
+        - name
+        - label
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        label:
+          type: string
+    CreatePolicy:
+      type: object
+      required:
+        - name
+        - label
+        - query
+        - description
+        - policy_category_id
+        - violation_summary_tmpl
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+          minLength: 3
+          maxLength: 64
+        name:
+          type: string
+          minLength: 3
+          maxLength: 512
+        description:
+          type: string
+          minLength: 3
+        rationale:
+          type: string
+        logic:
+          type: string
+        remediation_steps:
+          type: string
+        violation_summary_tmpl:
+          type: string
+        severity:
+          type: number
+          minimum: 0
+          maximum: 10
+        policy_category_id:
+          type: string
+        resource_id:
+          type: string
+        language:
+          type: string
+          enum:
+            - SQL
+        query:
+          type: string
+        enabled:
+          type: boolean
+        controls:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyControl'
+    PolicyControl:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        compliance_name:
+          type: string
+        compliance_id:
+          type: string
+    PolicyCoverage:
+      type: object
+      required:
+        - policy
+        - datasources
+      properties:
+        policy:
+          $ref: '#/components/schemas/PolicyShort'
+        datasources:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyCoverageDatasource'
+    PolicyCoverageDatasource:
+      type: object
+      required:
+        - id
+        - name
+        - type
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        policy_last_run:
+          type: integer
+          x-go-type: int64
+        policy_run_status:
+          type: boolean
+    SetPolicyCoverage:
+      type: object
+      required:
+        - datasources
+      properties:
+        datasources:
+          type: array
+          items:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+    SQLQuery:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+        parameters:
+          type: object
+          additionalProperties: true
+    SQLQueryResult:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    SaveSQLQuery:
+      type: object
+      required:
+        - query
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        query:
+          type: string
+        description:
+          type: string
+        parameters:
+          type: object
+          additionalProperties: true
+    SaveView:
+      type: object
+      required:
+        - query
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        query:
+          type: string
+        description:
+          type: string
+    SavedSQLQuery:
+      type: object
+      required:
+        - id
+        - name
+        - query
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        query:
+          type: string
+        description:
+          type: string
+        parameters:
+          type: object
+          additionalProperties: true
+    SavedSQLQueryList:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SavedSQLQuery'
+    Table:
+      type: object
+      required:
+        - name
+        - row_count
+        - columns
+      properties:
+        name:
+          type: string
+        row_count:
+          type: integer
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableColumn'
+    TableColumn:
+      type: object
+      required:
+        - column_name
+        - data_type
+      properties:
+        column_name:
+          type: string
+        data_type:
+          type: string
+        is_nullable:
+          type: boolean
+    TableData:
+      type: object
+      required:
+        - results
+        - cursor
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+    TableList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Table'
+    View:
+      type: object
+      required:
+        - id
+        - name
+        - query
+        - secberus_managed
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        query:
+          type: string
+        description:
+          type: string
+        secberus_managed:
+          type: boolean
+        owner_id:
+          type: string
+    ViewList:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/View'
+    User:
+      type: object
+      required:
+        - id
+        - email
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+    UserList:
+      type: object
+      required:
+        - cursor
+        - results
+      properties:
+        cursor:
+          $ref: '#/components/schemas/Cursor'
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    UserPermissions:
+      type: object
+      required:
+        - user_id
+        - org_id
+        - role_id
+      properties:
+        user_id:
+          type: string
+        org_id:
+          type: string
+        role_id:
+          type: string
+    UserPermissionsList:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserPermissions'
+    CredentialLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    CredentialResponse:
+      type: object
+      required: null
+      properties:
+        AccessToken:
+          type: string
+        ExpiresIn:
+          type: integer
+        IdToken:
+          type: string
+        RefreshToken:
+          type: string
+        TokenType:
+          type: string
+    Email:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+    IsSSO:
+      type: object
+      required:
+        - sso
+      properties:
+        sso:
+          type: boolean
+        client_id:
+          type: string
+        provider:
+          type: string
+  parameters:
+    SortBy:
+      name: sort_by
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+    OrgId:
+      name: org_id
+      in: path
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    xSid:
+      type: apiKey
+      in: header
+      name: x-s6s-sid
+    xOrg:
+      type: apiKey
+      in: header
+      name: x-s6s-org
+    xUser:
+      type: apiKey
+      in: header
+      name: x-s6s-user
+    xEmail:
+      type: apiKey
+      in: header
+      name: x-s6s-email

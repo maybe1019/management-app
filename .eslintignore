@@ -1,0 +1,6 @@
+packages/**/src/**/__tests__/**
+packages/**/src/**/__snapshots__/**
+packages/**/dist/
+packages/**/build/
+node_modules
+*.d.ts

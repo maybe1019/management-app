@@ -1,0 +1,12 @@
+{
+    "type": "service_account",
+    "project_id": "secberus-infrastructure",
+    "private_key_id": "58ba4dd1e84369650e0d9186be498fe4a20c8068",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC7bOKjIJzQxXeK\nDCWJYy1yodjHOZQ6xHXQ+/hzMWKK+g/l6+AzY9wa0QLbAax9rSjwcI1WQlS8bvPk\njClf5BE4Li/QzRzVz/FothRajJ+IAebjpr/iczLebd9ZnnBICNGABWyAt96Q4xj1\njyupVhU7V9tfYqNo3xH9MzHOGELq4qhM1KFfsYuI4mXsD0Ztm0BPKgAmsLx2bdMR\nslptOyFBHBt5EmCURJ7vH2FLVJVovEKxchuSDfG/dfbRyCZSOVp3aUiP+KsEwoZM\nJMDs8Rrc4Q2rTo4oaDfebv59Ihr41ksBmvTObyAc+bPmUF6jbw7ohKF5RIlk4Bgt\ng23+xajzAgMBAAECggEAMld9zHkfBch0YkT+9BcKhwbH1kM1+E76okZ7pl02bcPa\n71Pa5ZLF9QH89VxOu3b+Tw68N9YbMn3Ozq2DE3mL0n49Y6UkQJ3Y5to5P1UUKJDy\nNmV8ltOAb1QtsMGowQB1XSCX0z8P7fTBqHtrK9GuZEEl8EnrQGjiSRMuJoBHwRTo\njVfH49Dp6xRJdCoWYeGMCAKQw7or4b7tpGUxvSV45wqvvbEJRtm5VieOM9taDhFS\nDAbmbp4Ly+8p1aYCFk3CsFHlaXB0vbYRaG6h/m8f+l3GfL6y0F67hEphO5SKXXuv\n8IOC3jpIWNYaVb0ZrDnxvNo8qWqISqpIE6GhfVvy4QKBgQDhcQ3Kye7vsqXZtojx\nTQAlEayhL4Tpg7WdI0A9NtogbprQNqrvFg7t5DL1nkOgzaclCnfIUSFWeEuzptcV\n6HvixT0Hrxht7UbDYRRg+moS9V2dxADLqhViAEBEGo20kthqvq6+qoU75GRhapg3\n/Y7e0Y0clxFQGjUELu8Vx2AXgwKBgQDU1KVT7BcUBSYv+JE3nsCvzZoYu7S1S9O/\n2jCU3fgW59S+pwP/uZa0fboy0lE44QOiLWY6N7Yqioda9nkPL9jDzFd6o2PhCEJ9\nSzFDyowOh1+XP89BvlV0bfwnj015haan2KaPQ3DMXmrl2XxyMadiLb3Vi0JleGmB\n8MwHI7L90QKBgEbJWs1L7qxw6cacnA84YE1DaXMLGq6/3mzCvs75xC/eytmJ8M41\nnOZxetbIpO9+43ar/MR3RQKDrzFvt6V3ZD7mM62P+xm5ITkD6IQy3M+rH4QEIUPR\n2fj1nzhDJi+G1FFgIjpYDJGruyEjeTxLb2rjXW2WuabvM6pmmke6XJ/FAoGAMcwH\nWtl0lOSXiMXaBG+Kmhe7JGpW38x8IPmGQG6nK4TWzDz7vIvJ7TU1qcp34p0TYpDI\nyHpcjxuWi/v7W0hQqY9YMIOmTPLHy9UaE8iCeKvH+/WcIr/L8tABHahz8ikJU2Bn\nqEGZVNgKnvkCGx3vEhOtxRcuU9uWpCaZNlpt+OECgYA48l82usQJaT3b2Drgbt/t\ntPXH0CNKfmNGYDk8rFBpeJiwJXyNkX8b89pk7/1d2rvM8j90XTkK5ei2gHrvd5Bn\nozkhO0rpU1cWsH5mYRBOlVmeCgmg5EzsdV7/bwdjP2N0DZQ+RzV7IHCIVp1EK5tV\nkzMijLnH1K1h0N3ORbkCNA==\n-----END PRIVATE KEY-----\n",
+    "client_email": "secberus-collector@secberus-infrastructure.iam.gserviceaccount.com",
+    "client_id": "105154501175921296984",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/secberus-collector%40secberus-infrastructure.iam.gserviceaccount.com"
+}

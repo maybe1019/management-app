@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - yarn config set script-shell /bin/bash
+      - yarn config set cache-folder /root/.yarn-cache
+      - yarn
+  build:
+    on-failure: ABORT
+    commands:
+      - yarn build:deps
+      - yarn build:storybook
+artifacts:
+    files:
+      - '**/*'
+    base-directory: 'packages/components/sb-build'

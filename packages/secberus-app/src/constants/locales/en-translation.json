@@ -1,0 +1,98 @@
+{
+  "en": {
+    "translation": {
+      "edit": "Edit",
+      "details": "details",
+      "send-feedback": "Send Feedback",
+      "policies": "Policies",
+      "auditLog": "Audit Log",
+      "integrations": "Integrations",
+      "secberus": "Secberus",
+      "rules": "Rules",
+      "data-sources": "Data sources",
+      "alerts": "Violations",
+      "alert": "Violation",
+      "remediation": "Remediation",
+      "settings": "Settings",
+      "logout": "Sign out",
+      "workflows": "Workflows",
+      "reports": "Reports",
+      "exception": "Exceptions",
+      "risk-posture": "Risk",
+      "activity-log": "Activity log",
+      "organizations": "Organizations",
+      "compliances": "Compliance",
+      "authentication": "Authentication",
+      "support": "Support",
+      "report-bug": "Report a bug",
+      "users": "Users",
+      "titles": {
+        "404": "404 - Not Found",
+        "policies": "Policies",
+        "rules": "Rules",
+        "dataSources": "Data sources",
+        "alerts": "Violations",
+        "remediation": "Remediation",
+        "settings": "Settings",
+        "logout": "Logout",
+        "workflows": "Workflows",
+        "risk-posture": "Risk",
+        "compliances": "Compliance"
+      },
+      "routing": {
+        "edit": "edit",
+        "policies": "policies",
+        "rules": "rules",
+        "dataSources": "data-sources",
+        "alerts": "violations",
+        "remediation": "remediation",
+        "settings": "settings",
+        "notFound": "404",
+        "login": "login",
+        "logout": "logout",
+        "forgotPassword": "forgot-password",
+        "resetPassword": "reset-password",
+        "register": "register",
+        "form": "form",
+        "manage": "manage",
+        "workflows": "workflows",
+        "risk-posture": "risk-posture",
+        "categories": "categories",
+        "compliances": "compliances",
+        "exceptions": "exceptions"
+      },
+      "pagedata": {
+        "workflows": {
+          "buttons": {
+            "add": "New workflow"
+          },
+          "filters": {
+            "workflows": {
+              "trigger": "Trigger",
+              "action": "Action"
+            },
+            "integrations": [
+              {
+                "key": "Name"
+              },
+              {
+                "key": "Destination"
+              },
+              {
+                "key": "Status"
+              }
+            ]
+          },
+          "sidebarItems": [
+            {
+              "title": "Workflows"
+            },
+            {
+              "title": "Integrations"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

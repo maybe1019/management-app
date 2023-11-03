@@ -1,0 +1,9 @@
+build/
+dist/
+node_modules/
+.secret-*
+
+state.json
+.nyc_output
+coverage/
+*/test-results/

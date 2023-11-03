@@ -1,0 +1,16 @@
+*.log
+.DS_Store
+node_modules
+.cache
+dist
+
+#figma-export-icons
+icons-config.icons.json
+#figma-export-icons
+icons-config.logos.json
+
+#figma-export-icons
+icons-config.json
+
+#temp folder
+tmp

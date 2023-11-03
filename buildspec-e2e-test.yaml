@@ -1,0 +1,48 @@
+version: 0.2
+
+env:
+  shell: bash
+  variables:
+    S3_BUCKET: sb-app-e2e-test-deploy/data/test-results/e2e
+    BASE_URL: https://d2l4878nl18obc.cloudfront.net
+# phases:
+#   pre_build:
+#     commands:
+#       - TIME=$(date +"%Y%m%d_%H%M%S")
+#       - yarn config set script-shell /bin/bash
+#       - yarn config set cache-folder /root/.yarn-cache
+#       - ls -a
+#       - npx playwright install
+#   build:
+#     commands:
+#       - chmod +x ./fake.sh
+#       - chmod +x ./packages/secberus-app/fake.sh
+#       - | 
+#        if ./fake.sh faketty yarn workspace secberus-app e2e ; then
+#         echo "Tests succeeded"
+#        else
+#         echo "Tests failed" &&
+#         echo "Uploading result files.." &&
+#         aws s3 cp --recursive 'packages/secberus-app/e2e/test-results' s3://${S3_BUCKET}/${TIME}/ &&
+#         exit 1
+#        fi
+#   post_build:
+#     commands:
+#       - yarn workspace secberus-app coverage
+# artifacts:
+#   secondary-artifacts:
+#     CoverageArtifact:
+#       base-directory: 'packages/secberus-app/coverage'
+#       files:
+#         - '**/*'
+#       name: CoverageArtifact
+#     TestResultsArtifact:
+#       base-directory: 'packages/secberus-app/test-results'
+#       files:
+#         - '**/*'
+#       name: TestResultsArtifact
+# reports:
+#   coverage-report:
+#     files:
+#       - 'packages/secberus-app/coverage/*'
+#     file-format: CLOVERXML

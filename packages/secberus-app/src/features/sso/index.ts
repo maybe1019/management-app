@@ -1,0 +1,1 @@
+export * from './SSO.component';

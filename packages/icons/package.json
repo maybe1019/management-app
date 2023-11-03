@@ -1,0 +1,74 @@
+{
+    "version": "9.4.2",
+    "private": true,
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "engines": {
+        "node": ">=10"
+    },
+    "scripts": {
+        "build": "tsc && node ../../esbuild.config.js --target=es2018",
+        "size": "size-limit",
+        "analyze": "size-limit --why",
+        "storybook": "start-storybook -p 6006",
+        "build-storybook": "build-storybook",
+        "compile": "tsc -p ./tsconfig.json --noEmit --emitDeclarationOnly false",
+        "generate-icons": "rm -rf ./tmp && yarn generate-icons:fetch-figma-icons-icons && node ./scripts/flattenAndMoveFiles && rm -rf ./tmp/svg && yarn generate-icons:fetch-figma-icons-logos && node ./scripts/flattenAndMoveFiles && yarn generate-icons:convert-svg-to-tsx && rm -rf ./tmp",
+        "generate-icons:fetch-figma-icons-icons": "export-icons --config=icons-config.icons.json",
+        "generate-icons:fetch-figma-icons-logos": "export-icons --config=icons-config.logos.json",
+        "generate-icons:convert-svg-to-tsx": "svgr -d ./src/v3/ ./tmp/flattened"
+    },
+    "peerDependencies": {
+        "react": ">16",
+        "react-dom": ">16",
+        "react-router-dom": ">5",
+        "styled-components": ">5"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.14.5",
+        "@size-limit/preset-small-lib": "^4.12.0",
+        "@storybook/addon-essentials": "^6.2.9",
+        "@storybook/addon-info": "^5.3.21",
+        "@storybook/addon-links": "^6.2.9",
+        "@storybook/addons": "^6.2.9",
+        "@storybook/react": "^6.2.9",
+        "@svgr/cli": "^5.4.0",
+        "@types/node": "^12.0.0",
+        "@types/react": "^17.0.11",
+        "@types/react-dom": "^17.0.7",
+        "@types/react-router-dom": "^5.1.5",
+        "babel-loader": "^8.2.2",
+        "esbuild": "^0.12.20",
+        "esbuild-node-externals": "^1.3.0",
+        "figma-export-icons": "^1.5.0",
+        "fse": "^4.0.1",
+        "glob": "^7.1.6",
+        "lint-staged": "^10.5.1",
+        "lodash": "^4.17.19",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-is": "^17.0.2",
+        "size-limit": "^4.12.0",
+        "tslib": "^2.2.0",
+        "typescript": "^4.3.2"
+    },
+    "resolutions": {
+        "typescript": "4.3.2"
+    },
+    "name": "@secberus/icons",
+    "module": "dist/index.js",
+    "size-limit": [
+        {
+            "path": "dist/index.js",
+            "limit": "10 KB"
+        },
+        {
+            "path": "dist/index.js",
+            "limit": "10 KB"
+        }
+    ]
+}

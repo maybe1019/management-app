@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - yarn config set script-shell /bin/bash
+      - yarn config set cache-folder /root/.yarn-cache
+      - yarn
+  build:
+    on-failure: ABORT
+    commands:
+      - yarn build:deps
+      - yarn build:app
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'packages/secberus-app/build'
+env:
+  shell: bash
+  variables:
+    SKIP_PREFLIGHT_CHECK: true
+    # REACT_APP_DEPLOYED_ENV: local
+    # REACT_APP_API_URL: https://api-stage.secberus.io
+    # REACT_APP_COGNITO_DOMAIN: sso-stage.secberus.io
+    # REACT_APP_AWS_REGION: us-east-2
+    # REACT_APP_USER_POOL_ID: us-east-2_HfPTE6o7m
+    # REACT_APP_USER_POOL_WEB_CLIENT_ID: 4mkao50imq36vncepr34h3v4ub
+    # REACT_APP_IDENTITY_POOL_ID: us-east-2:d57e2627-8ebc-48c4-9827-83a7e4437184
+    # REACT_APP_X_API_KEY: MohTYznWtB3TiHSc9fm9ZaogOz5XRTue6TkHVvT5
+    # REACT_APP_ROOT_URL: http://localhost:3000
+cache:
+  paths:
+    - 'packages/secberus-app/build/**/*'

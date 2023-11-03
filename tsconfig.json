@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "rootDir": "packages",
+        "baseUrl": ".",
+        "strict": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "types": [],
+        "forceConsistentCasingInFileNames": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "jsx": "react",
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noImplicitReturns": true,
+        "noErrorTruncation": true,
+    },
+    "exclude": [
+        "**/dist/*",
+        "**/node_modules/*",
+        "**/build/*"
+    ]
+}

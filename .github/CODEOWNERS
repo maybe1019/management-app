@@ -1,0 +1,8 @@
+# Global:
+*       @colemars @Sigkar
+
+# Secberus App:
+packages/secberus-app/ @colemars @Sigkar @othneildrew @santosade
+
+# Secberus Intranet:
+packages/secberus-intranet/ @colemars

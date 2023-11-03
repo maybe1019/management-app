@@ -1,0 +1,3 @@
+[submodule "packages/secberus-protos"]
+	path = packages/secberus-protos
+	url = https://github.com/secberus/secberus-protos

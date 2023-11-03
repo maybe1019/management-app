@@ -1,0 +1,90 @@
+{
+    "extends": [
+        "react-app", // Create React App base settings
+        "eslint:recommended", // recommended ESLint rules
+        "plugin:prettier/recommended" // Enables eslint-plugin-prettier and eslint-config-prettier. This will display Prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "sourceType": "module",
+        "noWatch": true
+    },
+    "globals": {
+        "document": "writable",
+        "window": "writable",
+        "navigator": "writable",
+        "it": "writable",
+        "test": "writable",
+        "expect": "writable",
+        "IntersectionObserver": "writable",
+        "self": "writable",
+        "Worker": "writable",
+        "Response": "writable",
+        "confirm": "writable"
+    },
+    "rules": {
+        "prettier/prettier": "warn",
+        "import/order": "warn",
+        "react-hooks/exhaustive-deps": "error",
+        "react/jsx-curly-brace-presence": [
+            "warn",
+            {
+                "props": "never",
+                "children": "never"
+            }
+        ]
+    },
+    "overrides": [
+        {
+            "files": [
+                "**/*.tsx",
+                "**/*.ts"
+            ],
+            "extends": [
+                "plugin:@typescript-eslint/recommended", // recommended rules from @typescript-eslint/eslint-plugin
+                "prettier/@typescript-eslint" // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with Prettier.]
+            ],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "project": [
+                    "./tsconfig.json"
+                ] // Specify project only for TypeScript files
+            },
+            "rules": {
+                "react/prop-types": "off",
+                "@typescript-eslint/ban-ts-comment": [
+                    "warn"
+                ],
+                "@typescript-eslint/no-empty-function": [
+                    "warn"
+                ]
+            }
+        },
+        {
+            "files": [
+                "**/services/src/store/injections/*.ts"
+            ],
+            "extends": [
+                "plugin:@typescript-eslint/recommended", // recommended rules from @typescript-eslint/eslint-plugin
+                "prettier/@typescript-eslint" // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with Prettier.]
+            ],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "project": [
+                    "./tsconfig.json"
+                ] // Specify project only for TypeScript files
+            },
+            "rules": {
+                "@typescript-eslint/ban-types": [
+                    "warn"
+                ]
+            }
+        }
+    ],
+    "ignorePatterns": [
+        "*.generated*",
+        "*.test*"
+    ]
+}

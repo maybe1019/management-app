@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - yarn config set script-shell /bin/bash
+      - yarn config set cache-folder /root/.yarn-cache
+      - yarn --frozen-lockfile
+  build:
+    on-failure: ABORT
+    commands:
+      # - yarn build:deps
+artifacts:
+  enable-symlinks: true
+  files:
+    - '**/*'
+cache:
+  paths:
+    - '/root/.yarn-cache/**/*'
+    - 'node_modules/**/*'
+    - 'packages/*/node_modules/**/*'
+    - 'packages/*/dist/**/*'

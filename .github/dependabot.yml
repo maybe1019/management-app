@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    target-branch: "develop"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      
+  - package-ecosystem: "npm"
+    target-branch: "develop"
+    directory: "/packages/*"
+    schedule:
+      interval: "daily"
